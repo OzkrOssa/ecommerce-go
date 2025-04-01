@@ -1,0 +1,117 @@
+syntax="proto3";
+
+package customers.v1;
+
+import "google/api/annotations.proto";
+
+
+service CustomersService {
+  // Create a new customer
+  rpc CreateCustomer(CreateCustomerRequest) returns (CreateCustomerResponse){
+    option (google.api.http) = {
+      post: "/v1/customers"
+      body: "*"
+    };
+  }
+  
+  // Get a customer by ID
+  rpc GetCustomer(GetCustomerRequest) returns (GetCustomerResponse){
+    option (google.api.http) = {
+      get: "/v1/customers/{id}"
+    };
+  }
+    // ListCustomers returns a paginated list of customers
+    rpc ListCustomers(ListCustomersRequest) returns (ListCustomersResponse) {
+        option (google.api.http) = {
+            get: "/v1/customers"
+            additional_bindings {
+                get: "/v1/customers/{page}/{page_size}"
+            }
+        };
+    }
+  
+  // Update a customer
+  rpc UpdateCustomer(UpdateCustomerRequest) returns (UpdateCustomerResponse){
+    option (google.api.http) = {
+      put: "/v1/customers/{id}"
+      body: "*"
+    };
+  }
+  
+  // Delete a customer
+  rpc DeleteCustomer(DeleteCustomerRequest) returns (DeleteCustomerResponse){
+    option (google.api.http) = {
+      delete: "/v1/customers/{id}"
+    };
+  }
+}
+// Request message for creating a customer
+message CreateCustomerRequest {
+    uint64 id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string email = 4;
+    string address = 5;
+}
+
+// Response message for creating a customer
+message CreateCustomerResponse {
+    uint64 id = 1;
+}
+
+// Request message for getting a customer
+message GetCustomerRequest {
+    uint64 id = 1;
+}
+
+// Response message for getting a customer
+message GetCustomerResponse {
+    uint64 id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string email = 4;
+    string address = 5;
+}
+
+// Request message for updating a customer
+message UpdateCustomerRequest {
+    uint64 id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string email = 4;
+    string address = 5;
+}
+
+// Response message for updating a customer
+message UpdateCustomerResponse {
+    uint64 id = 1;
+}
+
+// Request message for deleting a customer
+message DeleteCustomerRequest {
+    uint64 id = 1;
+}
+// Response message for deleting a customer
+message DeleteCustomerResponse {
+    uint64 id = 1;
+}
+// Request message for listing customers
+message ListCustomersRequest {
+    uint64 page = 1;
+    uint64 page_size = 2;
+}
+
+// Response message for listing customers
+message ListCustomersResponse {
+    repeated Customer customers = 1;
+    uint64 total_count = 2;
+}
+
+// Customer message
+message Customer {
+    uint64 id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string email = 4;
+    string address = 5;
+}
